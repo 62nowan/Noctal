@@ -21,6 +21,24 @@ def IntToLe(n, length):
 def LeToInt(b):
     return int.from_bytes(b, 'little')
 
+def encode_base58(s):
+    # determine how many 0 bytes (b'\x00') s starts with
+    count = 0
+    for c in s:
+        if c == 0:
+            count += 1
+        else:
+            break
+    # convert to big endian integer
+    num = int.from_bytes(s, 'big')
+    prefix = '1' * count
+    result = ''
+    while num > 0:
+        num, mod = divmod(num, 58)
+        result = BASE58_ALPHABET[mod] + result
+    return prefix + result
+
+
 
 def decode_base58(s):
     num = 0
@@ -49,3 +67,37 @@ def encode_varint(i):
     else:
         raise ValueError('Integer too large: {}'.format(i))
     
+
+def merkle_parent_level(hashes):
+    if len(hashes) % 2 == 1:
+        hashes.append(hashes[-1])
+    
+    parent_level = []
+
+    for i in range(0, len(hashes), 2):
+        parent = hash256(hashes[i] + hashes[i+1])
+        parent_level.append(parent)
+
+    return parent_level
+
+
+def merkle_root(hashes):
+    current_level = hashes
+
+    while len(current_level) > 1:
+        current_level = merkle_parent_level(current_level)
+
+    return current_level[0]
+
+
+def target_to_bits(target):
+    raw_bytes = target.to_bytes(32, "big")
+    raw_bytes = raw_bytes.lstrip(b"\x00")  # <1>
+    if raw_bytes[0] > 0x7F:  # <2>
+        exponent = len(raw_bytes) + 1
+        coefficient = b"\x00" + raw_bytes[:2]
+    else:
+        exponent = len(raw_bytes)  # <3>
+        coefficient = raw_bytes[:3]  # <4>
+    new_bits = coefficient[::-1] + bytes([exponent])  # <5>
+    return new_bits

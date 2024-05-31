@@ -1,3 +1,9 @@
+""" 
+Copyright (c) 2021 Codiesalert.com
+These scripts should be used for commercial purpose without Codies Alert Permission
+Any violations may lead to legal action
+"""
+
 A = 0
 B = 7
 
@@ -10,7 +16,7 @@ from random import randint
 import hmac
 import hashlib
 
-# Had to install "pycryptodome" because RIPEMD160 is not available in hashlib
+# Had to install Cryto Hash because RIPEMD160 is not available in hashlib
 from Crypto.Hash import RIPEMD160
 from io import BytesIO
 

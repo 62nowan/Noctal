@@ -1,7 +1,8 @@
 import sys
-sys.path.append('/Users/_______/Documents/Noctal') # Your repository
+sys.path.append('D:/Noctal')
 from Blockchain.Backend.Core.EllepticCurve.EllepticCurve import Sha256Point
 from Blockchain.Backend.util.util import hash160, hash256 
+from Blockchain.Backend.Core.database.database import AccountDB
 import secrets
 
 class account:
@@ -11,8 +12,8 @@ class account:
 
         G = Sha256Point(Gx, Gy)
 
-        privateKey = secrets.randbits(256)
-        unCompressPublicKey = privateKey * G
+        self.privateKey = secrets.randbits(256)
+        unCompressPublicKey = self.privateKey * G
         xpoint = unCompressPublicKey.x
         ypoint = unCompressPublicKey.y
 
@@ -49,12 +50,13 @@ class account:
             num, mod = divmod(num, 58)
             result = BASE58_ALPHABET[mod] + result 
 
-        PublicAdress = prefix + result
+        self.PublicAddress = prefix + result
         
-        print(f"Private Key {privateKey}")
-        print(f"Public Key {PublicAdress}")
+        print(f"Private Key {self.privateKey}")
+        print(f"Public Key {self.PublicAddress}")
  
 if __name__ == '__main__':
     acct = account()
     acct.createKeys() 
+    AccountDB().write([acct.__dict__])
 

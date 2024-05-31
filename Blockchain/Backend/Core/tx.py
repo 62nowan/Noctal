@@ -3,8 +3,9 @@ from Blockchain.Backend.util.util import IntToLe, bytes_needed , decode_base58, 
 
 ZERO_HASH = b'\0' * 32
 REWARD = 50
-PRIVATE_KEY = 'Paste here'    #Launch the acccount.py file then copy your private and public key here
-MINER_ADDRESS = 'Paste here'
+PRIVATE_KEY = '84451423271327909225819041603150775307597242086657049636380650670130409950196'
+MINER_ADDRESS = '1Lfiwd5xq5oH1n9FsoYv5fz5CmYwNM6RwN'
+SIGHASH_ALL = 1
 
 class CoinbaseTx:
     def __init__(self, BlockHeight):
@@ -57,7 +58,42 @@ class Tx:
 
         return result
 
+
+    def sign_hash(self, input_index, script_pubkey):
+        s = IntToLe(self.version, 4)
+        s += encode_varint(len(self.tx_ins))
+
+        for i, tx_in in enumerate(self.tx_ins):
+            if i == input_index:
+                s += TxIn(tx_in.prev_tx, tx_in.prev_index, script_pubkey).serialize()
+            else:
+                s += TxIn(tx_in.prev_tx, tx_in.prev_index).serialize()
+
+        s += encode_varint(len(self.tx_outs))
+
+        for tx_out in self.tx_outs:
+            s += tx_out.serialize()
+
+        s += IntToLe(self.locktime, 4)
+        s += IntToLe(SIGHASH_ALL, 4)
+        h256 = hash256(s)
+        return int.from_bytes(h256, 'big')
     
+
+
+    def sign_input(self, input_index, private_key, script_pubkey):
+        z = self.sign_hash(input_index, script_pubkey)
+        der = private_key.sign(z).der()
+        sig = der + SIGHASH_ALL.to_bytes(1, 'big')
+        sec = private_key.point.sec()
+        self.tx_ins[input_index].script_sig = Script([sig, sec])
+    
+    def verify_input(self, input_index, script_pubkey):
+        tx_in = self.tx_ins[input_index]
+        z = self.sign_hash(input_index, script_pubkey)
+        combined = tx_in.script_sig + script_pubkey
+        return combined.evaluate(z)
+
     def is_coinbase(self):
         if  len(self.tx_ins) != 1:
             return False
@@ -73,17 +109,26 @@ class Tx:
     
     
     def to_dict(self):
-        if self.is_coinbase():
-            self.tx_ins[0].prev_tx = self.tx_ins[0].prev_tx.hex()
-            self.tx_ins[0].script_sig.cmds[0] = LeToInt(self.tx_ins[0].script_sig.cmds[0])
-            self.tx_ins[0].script_sig = self.tx_ins[0].script_sig.__dict__
         
-        self.tx_ins[0] = self.tx_ins[0].__dict__
+        for tx_index, tx_in in enumerate(self.tx_ins):
+            if self.is_coinbase():
+                tx_in.script_sig.cmds[0] = LeToInt(tx_in.script_sig.cmds[0])
 
-        self.tx_outs[0].script_pubkey.cmds[2] = self.tx_outs[0].script_pubkey.cmds[2].hex()
-        self.tx_outs[0].script_pubkey = self.tx_outs[0].script_pubkey.__dict__
-        self.tx_outs[0] = self.tx_outs[0].__dict__ 
+            tx_in.prev_tx = tx_in.prev_tx.hex()
 
+            for index, cmd in enumerate(tx_in.script_sig.cmds):
+                if isinstance(cmd, bytes):
+                    tx_in.script_sig.cmds[index] = cmd.hex()
+
+            tx_in.script_sig = tx_in.script_sig.__dict__
+            self.tx_ins[tx_index] = tx_in.__dict__
+
+
+        for index, tx_out in enumerate(self.tx_outs):
+            tx_out.script_pubkey.cmds[2] = tx_out.script_pubkey.cmds[2].hex()
+            tx_out.script_pubkey = tx_out.script_pubkey.__dict__
+            self.tx_outs[index] = tx_out.__dict__
+        
         return self.__dict__
 
 

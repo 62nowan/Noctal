@@ -8,7 +8,7 @@ class BaseDB:
 
     def read(self):
         if not os.path.exists(self.filepath):
-            print(f"Invalid {self.filepath} file")
+            print(f"Le fichier {self.filepath} n'est pas valide")
             return False
         
         with open(self.filepath, "r") as file:
@@ -41,3 +41,8 @@ class BlockchainDB(BaseDB):
 
         if data :
             return data[-1]
+
+class AccountDB(BaseDB):
+    def __init__(self):
+        self.filename = 'account'
+        super().__init__()
