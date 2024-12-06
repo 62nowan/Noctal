@@ -19,8 +19,6 @@
 - [Prérequis](#prérequis)
 - [Installation](#installation)
 - [Utilisation](#utilisation)
-- [Exemples d'utilisation](#exemples-dutilisation)
-- [Structure du projet](#structure-du-projet)
 - [Contributions](#contributions)
 - [Licence](#licence)
 
@@ -28,28 +26,30 @@
 
 ## À propos
 
-Ce projet vise à expliquer et à démontrer le fonctionnement d'une blockchain en partant des bases : 
+Ce projet vise à acquérir de l'expèrience mais aussi à démontrer le fonctionnement d'une blockchain en partant des bases : 
 - Création et validation de blocs.
 - Implémentation d'un consensus simple.
 - Une interface web pour visualiser et interagir avec la blockchain.
 
 ## Fonctionnalités
 
-- **Ajout de transactions** : Les utilisateurs peuvent soumettre des transactions via l'interface.
-- **Création de blocs** : Simulation de la validation et de l'ajout de blocs à la chaîne.
-- **Exploration de la blockchain** : Affichage de l'état actuel de la blockchain.
-- **API REST** : Points de terminaison pour interagir avec la blockchain.
+- **Ajout de transactions** : Les utilisateurs peuvent soumettre des transactions via l'interface Flask.
+- **Création de blocs** : Les mineurs peuvent valider et ajouter des blocs à la chaîne.
+- **Exploration de la blockchain** : Les utilisateurs peuvent suivre l'état actuel de la blockchain via l'explorer.
 
 ## Technologies utilisées
 
 - **Python** : Langage principal pour la logique de la blockchain.
 - **Flask** : Framework web pour l'interface utilisateur.
 - **HTML/CSS/JavaScript** : Pour l'interface utilisateur.
+- **Fichiers python externes** : Pour les calculs crptographiques.
 - **Bibliothèques Python** : 
   - `flask`
   - `hashlib`
   - `json`
-  - Autres selon vos besoins.
+  - `pycryptodome`
+  - `configparser`
+  - `...`
 
 ## Prérequis
 
@@ -57,11 +57,21 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 
 - Python 3.7 ou supérieur
 - Pip (gestionnaire de paquets Python)
-- Un navigateur web moderne
+- Un navigateur web
+- Un IDE
 
 ## Installation
 
 1. Clonez ce dépôt :
    ```bash
-   git clone https://github.com/votreutilisateur/votreprojetblockchain.git
-   cd votreprojetblockchain
+   git clone https://github.com/shash64/Noctal.git
+   cd Noctal
+
+2. Créez un environnement virtuel et activez-le dans le terminal :
+   ```bash
+   python -m venv venv # Ou python3
+   source env/bin/activate # (Sous Windows : .\env\Scripts\activate)
+
+3. Installez les dépendances :
+   ```bash
+   pip install -r requirements.txt
