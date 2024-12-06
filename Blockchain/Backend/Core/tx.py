@@ -3,19 +3,29 @@ from Blockchain.Backend.util.util import IntToLe, bytes_needed , decode_base58, 
 
 ZERO_HASH = b'\0' * 32
 REWARD = 50
-PRIVATE_KEY = '84451423271327909225819041603150775307597242086657049636380650670130409950196'
-MINER_ADDRESS = '1Lfiwd5xq5oH1n9FsoYv5fz5CmYwNM6RwN'
+PRIVATE_KEY = "" # Insérer la clé privée générée avec le script account.py
+MINER_ADDRESS = "" # Insérer l'adresse publique générée avec le script account.py
 SIGHASH_ALL = 1
 
+"""
+La classe CoinbaseTx gère la création d'une transaction Coinbase, utilisée pour récompenser les mineurs
+avec de nouvelles pièces lors de la validation d'un bloc.
+"""
 class CoinbaseTx:
+    """
+    Initialise une transaction Coinbase avec la hauteur du bloc.
+    """
     def __init__(self, BlockHeight):
         self.BlockHeightInLittleEndian = IntToLe(BlockHeight, bytes_needed(BlockHeight))
-    
+
+
+    """
+    CoinbaseTransaction() -> Crée une transaction Coinbase.
+    """
     def CoinbaseTransaction(self):
         prev_tx = ZERO_HASH
         prev_index = 0xFFFFFFFF
-        tx_ins = []
-        tx_ins.append(TxIn(prev_tx, prev_index))
+        tx_ins = [TxIn(prev_tx, prev_index)]
         tx_ins[0].script_sig.cmds.append(self.BlockHeightInLittleEndian)
 
         tx_outs = []
@@ -27,21 +37,40 @@ class CoinbaseTx:
         coinBaseTx.TxId = coinBaseTx.id()
         return coinBaseTx
 
+
+"""
+La classe Tx représente une transaction sur la blockchain, composée d'entrées (TxIn) et de sorties (TxOut).
+
+    - version (int): Version de la transaction.
+    - tx_ins (list[TxIn]): Liste des transactions entrantes.
+    - tx_outs (list[TxOut]): Liste des transactions sortantes.
+    - locktime (int): Heure de verrouillage de la transaction.
+"""
 class Tx:
+
     def __init__(self, version, tx_ins, tx_outs, locktime):
         self.version = version
         self.tx_ins = tx_ins
         self.tx_outs = tx_outs
         self.locktime = locktime
-    
+
+
+    """
+    Renvoie l'identifiant de la transaction.
+    """
     def id(self):
         return self.hash().hex()
     
-    
+
+    """
+    Calcule le hash de la transaction.
+    """
     def hash(self):
         return hash256(self.serialize())[::-1]
     
-
+    """
+    Sérialise la transaction.
+    """
     def serialize(self):
         result = IntToLe(self.version, 4)
         result += encode_varint(len(self.tx_ins))
@@ -59,6 +88,9 @@ class Tx:
         return result
 
 
+    """
+    Calcule le hash de l'entrée pour la signature.
+    """
     def sign_hash(self, input_index, script_pubkey):
         s = IntToLe(self.version, 4)
         s += encode_varint(len(self.tx_ins))
@@ -80,20 +112,30 @@ class Tx:
         return int.from_bytes(h256, 'big')
     
 
-
+    """
+    Signe une entrée spécifique.
+    """
     def sign_input(self, input_index, private_key, script_pubkey):
         z = self.sign_hash(input_index, script_pubkey)
         der = private_key.sign(z).der()
         sig = der + SIGHASH_ALL.to_bytes(1, 'big')
         sec = private_key.point.sec()
         self.tx_ins[input_index].script_sig = Script([sig, sec])
+
     
+    """
+    Vérifie une signature pour une entrée spécifique.
+    """
     def verify_input(self, input_index, script_pubkey):
         tx_in = self.tx_ins[input_index]
         z = self.sign_hash(input_index, script_pubkey)
         combined = tx_in.script_sig + script_pubkey
         return combined.evaluate(z)
 
+
+    """
+    Vérifie si la transaction est une Coinbase.
+    """
     def is_coinbase(self):
         if  len(self.tx_ins) != 1:
             return False
@@ -108,6 +150,9 @@ class Tx:
         return True
     
     
+    """
+    Convertit la transaction en dictionnaire.
+    """
     def to_dict(self):
         
         for tx_index, tx_in in enumerate(self.tx_ins):
@@ -132,7 +177,15 @@ class Tx:
         return self.__dict__
 
 
+"""
+La classe TxIn représente une entrée de transaction sur la blockchain.
 
+    - prev_tx (bytes): Le hash de la transaction précédente.
+    - prev_index (int): L'index de la transaction précédente.
+    - script_sig (Script): Le script de déverrouillage.
+    - sequence (int): Champ de séquence.
+
+"""
 class TxIn:
     def __init__(self, prev_tx, prev_index, script_sig=None, sequence=0xFFFFFFFF):
         self.prev_tx = prev_tx
@@ -145,6 +198,10 @@ class TxIn:
 
         self.sequence = sequence
 
+
+    """
+    Sérialise l'entrée.
+    """
     def serialize(self):
         result = self.prev_tx[::-1]
         result += IntToLe(self.prev_index, 4)
@@ -153,11 +210,21 @@ class TxIn:
         return result
 
 
+"""
+La classe TxOut représente une sortie de transaction sur la blockchain.
+
+    - amount (int): Montant de la transaction sortante.
+    - script_pubkey (Script): Script de verrouillage.
+"""
 class TxOut:
     def __init__(self, amount, script_pubkey):
         self.amount = amount
         self.script_pubkey = script_pubkey
 
+
+    """
+    Sérialise la sortie.
+    """
     def serialize(self):
         result = IntToLe(self.amount, 8)
         result += self.script_pubkey.serialize()
