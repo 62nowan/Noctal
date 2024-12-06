@@ -117,7 +117,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 ### Versions précédentes
 
 #### Version 1.1
-- **Date** : Juin 2024
+- **Date** : Mai 2024
 
 **Changements** :
 - Prototype initial de la blockchain : minage des blocs, visualisation des blocs, visualisation des adresses,... 
