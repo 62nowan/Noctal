@@ -127,7 +127,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 - Création du dépôt et de la structure de base du projet.
 - Implémentation d'un simple modèle de bloc dans un fichier json avec des fonctions de hachage basiques.
 - Première version sans interface utilisateur, uniquement la logique de la blockchain en Python via le terminal.
-- Implémentation des adresses ainsi que des clés privées et publique.
+- Implémentation des adresses ainsi que des clés privées et publiques.
 - Stockage des données sur le disque.
 
 ---
