@@ -101,27 +101,33 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 
 **Changements majeurs** :
 - Implémentation complète de la blockchain avec un mécanisme de consensus basé sur la preuve de travail (Proof-of-Work) inspiré de Bitcoin.
-- Développement de l'interface utilisateur Flask permettant l'interaction avec la blockchain : ajout de transactions, validation des blocs et exploration de la chaîne.
-- Création d'une API REST pour interagir avec la blockchain et effectuer des opérations de manière programmatique.
-- Mise en place de tests unitaires pour garantir la fiabilité du code.
+- Développement de l'interface utilisateur Flask permettant l'interaction avec la blockchain : ajout des pages de transactions, des détails de blocs et exploration complète de la chaîne.
+- Mise en place des fondations du projet avec des commentaires et une structure de code plus claire.
+- Création d'une ébauche d'un réseau P2P.
+- Création d'un serveur local et traitement des requêtes
+- Synchronisation des réquêtes et envoie du fichier json de la blockchain aux mineurs. (Problèmes de synchronisation du temps à résoudre)
 
 ### Versions précédentes
 
 #### Version 1.1
-- **Date** : Octobre 2024
+- **Date** : Juin 2024
 
 **Changements** :
-- Prototype initial de la blockchain avec des fonctions de base : ajout de blocs et validation.
+- Prototype initial de la blockchain : minage des blocs, visualisation des blocs, visualisation des adresses,... 
 - Première ébauche de l'interface utilisateur Flask pour la visualisation de la chaîne.
-- Mise en place des fondations du projet avec des commentaires et une structure de code claire.
+- Création du principe de transactions, de la memory pool, des transactions en attentes et supression des transactions dépensées.
+- Creation du principe de signature des transactions et de verification.
+- Implémentation des frais de transactions, modification autonome de la difficultée de minage et calcul de la taille des blocs
 
 #### Version 1.0
-- **Date** : Septembre 2024
+- **Date** : Mars 2024
 
 **Changements** :
 - Création du dépôt et de la structure de base du projet.
-- Implémentation d'un simple modèle de bloc avec des fonctions de hachage et d'ajout de transactions.
-- Première version sans interface utilisateur, uniquement la logique de la blockchain en Python.
+- Implémentation d'un simple modèle de bloc dans un fichier json avec des fonctions de hachage basiques.
+- Première version sans interface utilisateur, uniquement la logique de la blockchain en Python via le terminal.
+- Implémentation des adresses ainsi que des clés privées et publique.
+- Stockage des données sur le disque.
 
 ---
 
