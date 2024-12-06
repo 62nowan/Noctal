@@ -15,6 +15,7 @@ La classe Send est utilisée pour créer, préparer et signer une transaction da
                     sortie de la différence entre la valeur du montant à envoyer et le solde total de l'/des utxo(s)).
 """
 class Send:
+    
     def __init__(self, fromAccount, toAccount, Amount, UTXOS):
         self.COIN = 100000000  # Conversion d'une unité principale en unités plus petites
         self.FromPublicAdress = fromAccount
