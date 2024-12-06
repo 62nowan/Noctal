@@ -11,6 +11,9 @@
  travers un réseau local d'acteurs. Cependant c'est un prototype très peu sécurisé et pour le moment non résistant aux attaques, le but premier étant d'essayer de reproduire fidèlement le 
  fonctionnement d'une blockchain.
 
+ Ce projet découle d'un intêret particulier au monde des cryptommonaies et de la blockchain en général depuis plus de 5 ans, c'est la suite logique de nombreux projets et apprentissages 
+ que j'ai pu réaliser par le passé dans ce domaine.
+
 
 ## 📝 Table des matières
 
