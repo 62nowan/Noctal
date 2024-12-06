@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block title %} Codies Alert {% endblock %} {% block
+{% extends 'base.html' %} {% block title %} Blocks {% endblock %} {% block
 content%}
 
 <h1 class="BlockNumber">BLOCK #{{ block['Height']}}</h1>
@@ -85,7 +85,7 @@ content%}
       (tx_out['amount']/100000000)|int %} {% else %} {% set amount =
       (tx_out['amount']/100000000) %} {% endif %}
       <a href="{{ url_for('address', publicAddress = pubAddress) }}">
-        #{{ loop.index0 }} {{ pubAddress }} : {{ amount }} BTC</a
+        #{{ loop.index0 }} {{ pubAddress }} : {{ amount }} NOC</a
       >
     </div>
     {% endfor %}
