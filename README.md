@@ -1,8 +1,11 @@
 # Noctal Blockchain
  
  **Noctal** est une implémentation simplifiée d'une blockchain en Python avec un explorateur.
- Ce projet s'inspire directement du mécanisme de consensus et de la structure de la chaîne du **Bitcoin**. Le consensus est basé sur l'**algorithme de preuve de travail (Proof-of-Work)**, 
- où les mineurs doivent résoudre des problèmes cryptographiques complexes pour valider de nouveaux blocs et les ajouter à la chaîne. Le processus de validation utilise la fonction SHA-256 pour garantir l'intégrité des données de chaque bloc. Chaque bloc contient un hachage du bloc précédent, créant ainsi une chaîne de blocs sécurisée et immuable. 
+ Ce projet s'inspire directement du mécanisme de consensus et de la structure de la chaîne du **Bitcoin**. 
+ Le consensus est basé sur l'**algorithme de preuve de travail (Proof-of-Work)**, où les mineurs doivent résoudre des problèmes cryptographiques complexes pour valider de nouveaux blocs 
+ et les ajouter à la chaîne. 
+ Le processus de validation utilise la fonction SHA-256 pour garantir l'intégrité des données de chaque bloc. Chaque bloc contient un hachage du bloc précédent, créant ainsi une chaîne de 
+ blocs sécurisée et immuable. 
 
  En reprenant ce mécanisme, notre projet simule l'ajout de transactions dans un bloc, la recherche du bon "nonce" pour résoudre le problème cryptographique, et la gestion du consensus à 
  travers un réseau local d'acteurs. Cependant c'est un prototype très peu sécurisé et pour le moment non résistant aux attaques, le but premier étant d'essayer de reproduire fidèlement le 
