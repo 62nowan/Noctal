@@ -19,8 +19,7 @@
 - [Prérequis](#prérequis)
 - [Installation](#installation)
 - [Utilisation](#utilisation)
-- [Contributions](#contributions)
-- [Licence](#licence)
+- [Versions](#versions)
 
 ---
 
@@ -88,8 +87,44 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
     ```bash
     python blockchain.py
 
- 4. Vous pouvez accéder à l'explorateur :
+ 4. Vous pouvez accéder à l'explorateur via l'url :
     ```bash
     http://127.0.0.1:5900
 
- 
+
+## Versions
+
+### Version actuelle
+
+- **Version** : 1.2
+- **Date** : Décembre 2024
+
+**Changements majeurs** :
+- Implémentation complète de la blockchain avec un mécanisme de consensus basé sur la preuve de travail (Proof-of-Work) inspiré de Bitcoin.
+- Développement de l'interface utilisateur Flask permettant l'interaction avec la blockchain : ajout de transactions, validation des blocs et exploration de la chaîne.
+- Création d'une API REST pour interagir avec la blockchain et effectuer des opérations de manière programmatique.
+- Mise en place de tests unitaires pour garantir la fiabilité du code.
+
+### Versions précédentes
+
+#### Version 1.1
+- **Date** : Octobre 2024
+
+**Changements** :
+- Prototype initial de la blockchain avec des fonctions de base : ajout de blocs et validation.
+- Première ébauche de l'interface utilisateur Flask pour la visualisation de la chaîne.
+- Mise en place des fondations du projet avec des commentaires et une structure de code claire.
+
+#### Version 1.0
+- **Date** : Septembre 2024
+
+**Changements** :
+- Création du dépôt et de la structure de base du projet.
+- Implémentation d'un simple modèle de bloc avec des fonctions de hachage et d'ajout de transactions.
+- Première version sans interface utilisateur, uniquement la logique de la blockchain en Python.
+
+---
+
+
+
+
