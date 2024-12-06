@@ -1,13 +1,15 @@
 import sys 
-sys.path.append('D:/Noctal') 
+sys.path.append('/Users/shash/Noctal') 
 
+import configparser
 from Blockchain.Backend.Core.block import Block
 from Blockchain.Backend.Core.blockheader import BlockHeader
 from Blockchain.Backend.util.util import hash256 , merkle_root, target_to_bits
-from Blockchain.Backend.Core.database.database import BlockchainDB
+from Blockchain.Backend.Core.database.database import BlockchainDB, NodeDB
 from Blockchain.Backend.Core.tx import CoinbaseTx
 from multiprocessing import Process, Manager
 from Blockchain.Frontend.run import main
+from Blockchain.Backend.Core.network.syncManager import syncManager
 import time
 
 
@@ -23,18 +25,32 @@ class Blockchain:
         self.current_target = INITIAL_TARGET
         self.bits = target_to_bits(INITIAL_TARGET)
 
+
     def write_on_disk(self,block):
         blockchainDB = BlockchainDB()
         blockchainDB.write(block)
     
+
     def fetch_last_block(self):
         blockchainDB = BlockchainDB()
         return blockchainDB.lastBlock()
+
 
     def GenesisBlock(self):
         BlockHeight = 0
         prevBlockHash = GENESIS_HASH
         self.addBlock(BlockHeight, prevBlockHash)
+
+    """ Start the Sync Node """
+    def startSync(self):
+        node = NodeDB()
+        portList = node.read()
+        
+        for port in portList:
+            if localHostPort != port:
+                sync = syncManager(localHost, port)
+                sync.startDownload()
+                
 
     def store_utxos_in_cache(self):
         for tx in self.addTransactionsInBlock:
@@ -120,7 +136,7 @@ class Blockchain:
         self.convert_to_json()
 
         print(f"Block {BlockHeight} mined successfully with Nonce value of {blockheader.nonce}")
-        self.write_on_disk([Block(BlockHeight, self.Blocksize, blockheader.__dict__, 1, self.TxJson).__dict__])
+        self.write_on_disk([Block(BlockHeight, self.Blocksize, blockheader.__dict__, len(self.TxJson), self.TxJson).__dict__])
 
     def main(self):
         lastBlock = self.fetch_last_block()
@@ -134,12 +150,25 @@ class Blockchain:
             self.addBlock(BlockHeight, prevBlockHash)
 
 if __name__ == "__main__":
+
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    localHost = config['DEFAULT']['host']
+    localHostPort = int(config['MINER']['port'])
+    webport = int(config['Webhost']['port'])
+
     with Manager() as manager:
         utxos = manager.dict()
         MemPool = manager.dict()
 
-        webapp = Process(target = main, args = (utxos,MemPool))
+        webapp = Process(target = main, args = (utxos, MemPool, webport))
         webapp.start()
 
+        """Start Server and Listen for miner requests"""
+        sync = syncManager(localHost, localHostPort)
+        starServer = Process(target = sync.SpinUpTheServer)
+        starServer.start()
+
         blockchain = Blockchain(utxos, MemPool)
+        blockchain.startSync()
         blockchain.main()
