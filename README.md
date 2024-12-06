@@ -82,7 +82,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
     ```bash
     python account.py
 
- 2. Ajoutez vos clés dans le fichier tx.py pour commencer pouvoir miner des blocks
+ 2. Ajoutez vos clés dans le fichier tx.py pour pouvoir miner des blocks
 
  3. Commencer à miner à l'aide du fichier blockchain.py :
     ```bash
