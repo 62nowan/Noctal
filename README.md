@@ -101,7 +101,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 - **Date** : Décembre 2024
 
 **Changements majeurs** :
-- Implémentation complète de la blockchain avec un mécanisme de consensus basé sur la preuve de travail (Proof-of-Work) inspiré de Bitcoin.
+- Implémentation finale de la blockchain avec un mécanisme de consensus basé sur la preuve de travail (Proof-of-Work).
 - Développement de l'interface utilisateur Flask permettant l'interaction avec la blockchain : ajout des pages de transactions, des détails de blocs et exploration complète de la chaîne.
 - Mise en place des fondations du projet avec des commentaires et une structure de code plus claire.
 - Création d'une ébauche d'un réseau P2P.
