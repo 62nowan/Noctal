@@ -75,3 +75,21 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 3. Installez les dépendances :
    ```bash
    pip install -r requirements.txt
+
+## Utilisation
+
+ 1. Lancez le fichier account.py pour générer une clé privée et une clé publique :
+    ```bash
+    python account.py
+
+ 2. Ajoutez vos clés dans le fichier tx.py pour commencer pouvoir miner des blocks
+
+ 3. Commencer à miner à l'aide du fichier blockchain.py :
+    ```bash
+    python blockchain.py
+
+ 4. Vous pouvez accéder à l'explorateur :
+    ```bash
+    http://127.0.0.1:5900
+
+ 
