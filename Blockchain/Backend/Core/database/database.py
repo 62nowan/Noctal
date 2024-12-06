@@ -46,3 +46,9 @@ class AccountDB(BaseDB):
     def __init__(self):
         self.filename = 'account'
         super().__init__()
+
+
+class NodeDB(BaseDB):
+    def __init__(self):
+        self.filename = 'node'
+        super().__init__()
