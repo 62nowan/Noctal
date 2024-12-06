@@ -112,7 +112,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 - Mise en place des fondations du projet avec des commentaires et une structure de code plus claire.
 - Création d'une ébauche d'un réseau P2P.
 - Création d'un serveur local et traitement des requêtes
-- Synchronisation des réquêtes et envoie du fichier json de la blockchain aux mineurs. (Problèmes de synchronisation du temps à résoudre)
+- Synchronisation des réquêtes et envoie du fichier de données de la blockchain aux mineurs. (Problèmes de synchronisation du temps à résoudre)
 
 ### Versions précédentes
 
