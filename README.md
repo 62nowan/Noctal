@@ -13,7 +13,7 @@
 
  Ce projet découle d'un intêret particulier au monde des cryptommonaies et de la blockchain en général depuis plus de 5 ans, c'est la suite logique à de nombreux projets et apprentissages 
  que j'ai pu réaliser par le passé dans ce domaine.
- Ce projet n'est pas non plus entièrement le fruit de mon travail, par contrainte de temps et du fait de mes études, je n'ai pas la possibilitée d'implémenté moi-même chaque mécanisme 
+ Ce projet n'est pas non plus entièrement le fruit de mon travail, je n'ai pas les capacités nécessaire d'implémenté moi-même chaque mécanisme 
  d'une blockchain notamment les principes cryptographiques complexes (Fonctions liées aux courbes elliptiques, codes d'opérations et les fonctions liées aux arbres de merkle).
 
 
