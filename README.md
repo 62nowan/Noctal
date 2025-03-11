@@ -1,54 +1,47 @@
 # Noctal Blockchain
- 
- **Noctal** est une implémentation simplifiée d'une blockchain en Python avec un explorateur.
- Ce projet s'inspire directement du mécanisme de consensus et de la structure de la chaîne du **Bitcoin**. 
- Le consensus est basé sur l'**algorithme de preuve de travail (Proof-of-Work)**, où les mineurs doivent résoudre des problèmes cryptographiques complexes pour valider de nouveaux blocs 
- et les ajouter à la chaîne. 
- Le processus de validation utilise la fonction SHA-256 pour garantir l'intégrité des données de chaque bloc. Chaque bloc contient un hachage du bloc précédent, créant ainsi une chaîne de 
- blocs sécurisée et immuable. 
 
- En reprenant ce mécanisme, notre projet simule l'ajout de transactions dans un bloc, la recherche du bon "nonce" pour résoudre le problème cryptographique, et la gestion du consensus à 
- travers un réseau local d'acteurs. Cependant c'est un prototype très peu sécurisé et pour le moment non résistant aux attaques, le but premier étant d'essayer de reproduire fidèlement le 
- fonctionnement d'une blockchain.
+**Noctal** is a simplified implementation of a blockchain in Python, complete with an explorer.  
+This project is directly inspired by the consensus mechanism and chain structure of **Bitcoin**.  
+The consensus is based on the **Proof-of-Work algorithm**, where miners must solve complex cryptographic problems to validate new blocks and add them to the chain.  
+The validation process uses the SHA-256 function to ensure the integrity of each block's data. Each block contains a hash of the previous block, creating a secure and immutable chain of blocks.
 
- Ce projet découle d'un intêret particulier au monde des cryptommonaies et de la blockchain en général depuis plus de 5 ans, c'est la suite logique à de nombreux projets et apprentissages 
- que j'ai pu réaliser par le passé dans ce domaine.
- Ce projet n'est pas entièrement le fruit de mon travail, je n'ai pas les capacités nécessaire pour implémenté moi-même certains mécanisme d'une blockchain notamment les principes cryptographiques complexes (Fonctions liées aux courbes elliptiques, codes d'opérations et les fonctions liées aux arbres de merkle).
+By adopting this mechanism, our project simulates adding transactions to a block, finding the correct "nonce" to solve the cryptographic problem, and managing consensus through a local network of actors. However, this is a prototype with minimal security and is currently not resistant to attacks. The primary goal is to faithfully replicate the functioning of a blockchain.
 
+This project come from a deep interest in the world of cryptocurrencies and blockchain technology over the past 5 years. It is the logical continuation of numerous projects and learning experiences I have undertaken in this field.  
+This project is not entirely my own work, as I do not possess the necessary skills to implement certain blockchain mechanisms myself, particularly complex cryptographic principles (e.g., elliptic curve functions, opcodes, and Merkle tree-related functions).
 
+## 📝 Table of Contents
 
-## 📝 Table des matières
-
-- [À propos](#À-propos)
-- [Fonctionnalités](#fonctionnalités)
-- [Technologies utilisées](#technologies-utilisées)
-- [Prérequis](#prérequis)
+- [About](#about)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Utilisation](#utilisation)
+- [Usage](#usage)
 - [Versions](#versions)
 
 ---
 
-## À propos
+## About
 
-Ce projet vise à acquérir de l'experience mais aussi à démontrer le fonctionnement d'une blockchain en partant des bases : 
-- Création et validation de blocs.
-- Implémentation d'un consensus simple.
-- Une interface web pour visualiser et interagir avec la blockchain.
+This project aims to gain experience while also demonstrating how a blockchain works from the ground up:
+- Creation and validation of blocks.
+- Implementation of a simple consensus mechanism.
+- A web interface to visualize and interact with the blockchain.
 
-## Fonctionnalités
+## Features
 
-- **Ajout de transactions** : Les utilisateurs peuvent soumettre des transactions via l'interface Flask.
-- **Création de blocs** : Les mineurs peuvent valider et ajouter des blocs à la chaîne.
-- **Exploration de la blockchain** : Les utilisateurs peuvent suivre l'état actuel de la blockchain via l'explorer.
+- **Transaction Submission**: Users can submit transactions via the Flask interface.
+- **Block Creation**: Miners can validate and add blocks to the chain.
+- **Blockchain Exploration**: Users can track the current state of the blockchain through the explorer.
+  
+## Technologies Used
 
-## Technologies utilisées
-
-- **Python** : Langage principal pour la logique de la blockchain.
-- **Flask** : Framework web pour l'interface utilisateur.
-- **HTML/CSS/JavaScript** : Pour l'interface utilisateur.
-- **Fichiers python externes** : Pour les calculs crptographiques.
-- **Bibliothèques Python** : 
+- **Python**: Main language for the blockchain logic.
+- **Flask**: Web framework for the user interface.
+- **HTML/CSS/JavaScript**: For the user interface.
+- **External Python Files**: For cryptographic calculations.
+- **Python Libraries**:
   - `flask`
   - `hashlib`
   - `json`
@@ -56,84 +49,84 @@ Ce projet vise à acquérir de l'experience mais aussi à démontrer le fonction
   - `configparser`
   - `...`
 
-## Prérequis
+## Prerequisites
 
-Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
+Before getting started, ensure you have the following installed:
 
-- Python 3.7 ou supérieur
-- Pip (gestionnaire de paquets Python)
-- Un navigateur web
-- Un IDE
+- Python 3.7 or higher
+- Pip (Python package manager)
+- A web browser
+- An IDE
 
 ## Installation
 
-1. Clonez ce dépôt :
+1. Clone this repository:
    ```bash
    git clone https://github.com/shash64/Noctal.git
    cd Noctal
 
-2. Créez un environnement virtuel et activez-le dans le terminal :
+2. Create a virtual environment and activate it in the terminal:
    ```bash
-   python -m venv venv # Ou python3
-   source env/bin/activate # (Sous Windows : .\env\Scripts\activate)
+   python -m venv venv # Or python3
+   source env/bin/activate # (On Windows : .\env\Scripts\activate)
 
-3. Installez les dépendances :
+3. Install the dependencies:
    ```bash
    pip install -r requirements.txt
 
-## Utilisation
+## Usage
 
- 1. Lancez le fichier account.py pour générer une clé privée et une clé publique :
+ 1. Run the account.py file to generate a private key and a public key:
     ```bash
     python account.py
 
- 2. Ajoutez vos clés dans le fichier tx.py pour pouvoir miner des blocs
+ 2. AAdd your keys to the tx.py file to enable block mining.
 
- 3. Commencer à miner à l'aide du fichier blockchain.py :
+ 3. Start mining using the blockchain.py file:
     ```bash
     python blockchain.py
 
- 4. Vous pouvez accéder à l'explorateur via l'url :
+ 4. You can access the explorer via the URL:
     ```bash
     http://127.0.0.1:5900
 
 
 ## Versions
 
-### Version actuelle
+### Current Version
 
-- **Version** : 1.2
-- **Date** : Décembre 2024
+- **Version**: 1.2
+- **Date**: December 2024
 
-**Changements majeurs** :
-- Implémentation finale de la blockchain avec un mécanisme de consensus basé sur la preuve de travail (Proof-of-Work).
-- Développement de l'interface utilisateur Flask permettant l'interaction avec la blockchain : ajout des pages de transactions, des détails de blocs et exploration complète de la chaîne.
-- Mise en place des fondations du projet avec des commentaires et une structure de code plus claire.
-- Création d'une ébauche d'un réseau P2P.
-- Création d'un serveur local et traitement des requêtes
-- Synchronisation des réquêtes et envoie du fichier de données de la blockchain aux mineurs. (Problèmes de synchronisation du temps à résoudre)
+**Major Changes**:
+- Final implementation of the blockchain with a Proof-of-Work consensus mechanism.
+- Development of the Flask user interface for interacting with the blockchain: addition of transaction pages, block details, and full chain exploration.
+- Establishment of the project foundations with clearer comments and code structure.
+- Creation of a P2P network prototype.
+- Setup of a local server and request handling.
+- Synchronization of requests and sending of blockchain data files to miners. (Time synchronization issues to be resolved).
 
-### Versions précédentes
+### Previous Versions
 
 #### Version 1.1
-- **Date** : Mai 2024
+- **Date**: May 2024
 
-**Changements** :
-- Prototype initial de la blockchain : minage des blocs, visualisation des blocs, visualisation des adresses,... 
-- Première ébauche de l'interface utilisateur Flask pour la visualisation de la chaîne.
-- Création du principe de transactions, de la memory pool, des transactions en attentes et supression des transactions dépensées.
-- Creation du principe de signature des transactions et de verification.
-- Implémentation des frais de transactions, modification autonome de la difficultée de minage et calcul de la taille des blocs
+**Changes**:
+- Initial blockchain prototype: block mining, block visualization, address visualization, etc.
+- First draft of the Flask user interface for chain visualization.
+- Creation of the transaction principle, memory pool, pending transactions, and removal of spent transactions.
+- Implementation of transaction signing and verification.
+- Addition of transaction fees, autonomous adjustment of mining difficulty, and block size calculation.
 
 #### Version 1.0
-- **Date** : Mars 2024
+- **Date**: March 2024
 
-**Changements** :
-- Création du dépôt et de la structure de base du projet.
-- Implémentation d'un simple modèle de bloc dans un fichier json avec des fonctions de hachage basiques.
-- Première version sans interface utilisateur, uniquement la logique de la blockchain en Python via le terminal.
-- Implémentation des adresses ainsi que des clés privées et publiques.
-- Stockage des données sur le disque.
+**Changes**:
+- Creation of the repository and basic project structure.
+- Implementation of a simple block model in a JSON file with basic hashing functions.
+- First version without a user interface, only blockchain logic in Python via the terminal.
+- Implementation of addresses along with private and public keys.
+- Storage of data on disk.
 
 ---
 
