@@ -12,3 +12,4 @@ pycryptodome
 requests
 urllib3
 Werkzeug
+customtkinter
