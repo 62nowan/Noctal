@@ -95,18 +95,27 @@ Before getting started, ensure you have the following installed:
 
 ### Current Version
 
-- **Version**: 1.2
+- **Version**: 1.21
+- **Date**: March 2025
+
+**Changes**:
+- Development of a CustomTkinter GUI for easier interaction with the blockchain.
+- Adding wallet management to help users create, list, and delete Noctal addresses directly from the GUI.
+- Adding the GUI frontend (Home, Send, Receive, Mine, and Transactions) inspired by the Bitcoin Core software.
+- Minors Bug Fix
+
+### Previous Versions
+
+#### Version 1.2
 - **Date**: December 2024
 
-**Major Changes**:
+**Changes**:
 - Final implementation of the blockchain with a Proof-of-Work consensus mechanism.
 - Development of the Flask user interface for interacting with the blockchain: addition of transaction pages, block details, and full chain exploration.
 - Establishment of the project foundations with clearer comments and code structure.
 - Creation of a P2P network prototype.
 - Setup of a local server and request handling.
 - Synchronization of requests and sending of blockchain data files to miners. (Time synchronization issues to be resolved).
-
-### Previous Versions
 
 #### Version 1.1
 - **Date**: May 2024
