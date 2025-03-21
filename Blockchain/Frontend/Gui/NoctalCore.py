@@ -51,9 +51,9 @@ class BitcoinUI(ctk.CTk):
         balance_frame.pack(fill="x", padx=20, pady=10)
         ctk.CTkLabel(balance_frame, text="Wallet Balance", font=("Arial", 18)).pack()
         
-        ctk.CTkLabel(balance_frame, text="Available: 0.00 BTC", font=("Arial", 14)).pack(anchor="w", padx=10)
-        ctk.CTkLabel(balance_frame, text="Pending: 0.00 BTC", font=("Arial", 14)).pack(anchor="w", padx=10)
-        ctk.CTkLabel(balance_frame, text="Total: 0.00 BTC", font=("Arial", 14)).pack(anchor="w", padx=10)
+        ctk.CTkLabel(balance_frame, text="Available: 0.00000000 NOC", font=("Arial", 14)).pack(anchor="w", padx=10)
+        ctk.CTkLabel(balance_frame, text="Pending: 0.00000000 NOC", font=("Arial", 14)).pack(anchor="w", padx=10)
+        ctk.CTkLabel(balance_frame, text="Total: 0.00000000 NOC", font=("Arial", 14)).pack(anchor="w", padx=10)
         
         transactions_frame = ctk.CTkFrame(self.content_frame)
         transactions_frame.pack(fill="both", expand=True, padx=20, pady=10)
@@ -85,11 +85,11 @@ class BitcoinUI(ctk.CTk):
             ctk.CTkLabel(details_frame, text=f"Address: {transaction['address']}").pack(anchor="w")
             
             amount_color = "green" if transaction["amount"] > 0 else "red"
-            ctk.CTkLabel(transaction_entry, text=f"{transaction['amount']} BTC", text_color=amount_color).pack(side="right", padx=5)
+            ctk.CTkLabel(transaction_entry, text=f"{transaction['amount']} NOC", text_color=amount_color).pack(side="right", padx=5)
 
     def show_receive(self):
         self.clear_content()
-        ctk.CTkLabel(self.content_frame, text="Your Bitcoin Address(es):", font=("Arial", 18)).pack(pady=10)
+        ctk.CTkLabel(self.content_frame, text="Your Noctal Address(es):", font=("Arial", 18)).pack(pady=10)
         
         self.address_frame = ctk.CTkFrame(self.content_frame)
         self.address_frame.pack(pady=5, padx=10, fill="both", expand=True)
@@ -173,7 +173,7 @@ class BitcoinUI(ctk.CTk):
 
     def show_send(self):
         self.clear_content()
-        ttk.Label(self.content_frame, text="Send Bitcoin", font=("Arial", 16)).pack(pady=10)
+        ttk.Label(self.content_frame, text="Send Noctal", font=("Arial", 16)).pack(pady=10)
         ttk.Label(self.content_frame, text="Recipient Address").pack()
         ttk.Entry(self.content_frame).pack(pady=5)
         ttk.Label(self.content_frame, text="Amount (BTC)").pack()
