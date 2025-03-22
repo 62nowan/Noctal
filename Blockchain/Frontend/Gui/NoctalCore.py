@@ -4,20 +4,23 @@ import os
 import json
 import subprocess
 from PIL import Image
+from Blockchain.Backend.util.util import decode_base58
 
 class BitcoinUI(ctk.CTk):
     def __init__(self):
         super().__init__()
-        ctk.set_appearance_mode("dark")  # Mode sombre
+        ctk.set_appearance_mode("dark")  
         ctk.set_default_color_theme("blue")
         
         self.title("Noctal Core")
         self.geometry("900x550")
+
+        self.wallet_addresses = []
+        self.utxos = {}
         
         self.create_sidebar()
         self.create_main_layout()
         
-        self.wallet_addresses = []
 
     def create_sidebar(self):
         self.sidebar = ctk.CTkFrame(self, width=200)
@@ -43,17 +46,22 @@ class BitcoinUI(ctk.CTk):
     def clear_content(self):
         for widget in self.content_frame.winfo_children():
             widget.destroy()
-
+        
     def show_home(self):
         self.clear_content()
         
         balance_frame = ctk.CTkFrame(self.content_frame)
         balance_frame.pack(fill="x", padx=20, pady=10)
         ctk.CTkLabel(balance_frame, text="Wallet Balance", font=("Arial", 18)).pack()
-        
-        ctk.CTkLabel(balance_frame, text="Available: 0.00000000 NOC", font=("Arial", 14)).pack(anchor="w", padx=10)
-        ctk.CTkLabel(balance_frame, text="Pending: 0.00000000 NOC", font=("Arial", 14)).pack(anchor="w", padx=10)
-        ctk.CTkLabel(balance_frame, text="Total: 0.00000000 NOC", font=("Arial", 14)).pack(anchor="w", padx=10)
+   
+        if self.wallet_addresses:
+            public_address = self.wallet_addresses[1]["PublicAddress"] #Main address
+            balance = self.calculate_balance(public_address)
+            ctk.CTkLabel(balance_frame, text=f"Available: {balance:.8f} NOC", font=("Arial", 14)).pack(anchor="w", padx=10)
+            ctk.CTkLabel(balance_frame, text="Pending: 0.00 NOC", font=("Arial", 14)).pack(anchor="w", padx=10)
+            ctk.CTkLabel(balance_frame, text=f"Total: {balance:.8f} NOC", font=("Arial", 14)).pack(anchor="w", padx=10)
+        else:
+            ctk.CTkLabel(balance_frame, text="No wallet address found.", font=("Arial", 14)).pack(anchor="w", padx=10)
         
         transactions_frame = ctk.CTkFrame(self.content_frame)
         transactions_frame.pack(fill="both", expand=True, padx=20, pady=10)
@@ -122,6 +130,7 @@ class BitcoinUI(ctk.CTk):
                     print("⚠️ Erreur: Fichier JSON invalide.")
         else:
             print(f"⚠️ Fichier non trouvé : {file_path}")
+            self.wallet_addresses = []
 
     def display_wallet_address(self, wallet):
         address_entry = ctk.CTkFrame(self.address_frame)
@@ -176,7 +185,7 @@ class BitcoinUI(ctk.CTk):
         ttk.Label(self.content_frame, text="Send Noctal", font=("Arial", 16)).pack(pady=10)
         ttk.Label(self.content_frame, text="Recipient Address").pack()
         ttk.Entry(self.content_frame).pack(pady=5)
-        ttk.Label(self.content_frame, text="Amount (BTC)").pack()
+        ttk.Label(self.content_frame, text="Amount (NOC)").pack()
         ttk.Entry(self.content_frame).pack(pady=5)
         send_button = ttk.Button(self.content_frame, text="Send")
         send_button.pack(pady=10)
@@ -190,6 +199,25 @@ class BitcoinUI(ctk.CTk):
         transactions_tree.heading("Status", text="Status")
         transactions_tree.pack(pady=10)
 
-if __name__ == "__main__":
+    def calculate_balance(self, public_address):
+        if self.utxos and len(public_address) < 35 and public_address[:1] == "1":
+            h160 = decode_base58(public_address) 
+            amount = 0
+            utxos_dict = dict(self.utxos)
+
+            for txid in utxos_dict:
+                for tx_out in utxos_dict[txid].tx_outs:
+                    if tx_out.script_pubkey.cmds[2] == h160:  
+                        amount += tx_out.amount  
+            return amount / 100000000  
+        else:
+            return 0
+
+
+
+def mainGui(utxos, mempool, port):
     app = BitcoinUI()
+    app.utxos = utxos  
+    app.mempool = mempool  
     app.mainloop()
+    
