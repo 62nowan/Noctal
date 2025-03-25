@@ -6,7 +6,7 @@ import subprocess
 from PIL import Image
 from Blockchain.Backend.util.util import decode_base58
 
-class BitcoinUI(ctk.CTk):
+class NoctalUI(ctk.CTk):
     def __init__(self):
         super().__init__()
         ctk.set_appearance_mode("dark")  
@@ -174,7 +174,7 @@ class BitcoinUI(ctk.CTk):
 
     def show_mine(self):
         self.clear_content()
-        ttk.Label(self.content_frame, text="Bitcoin Mining", font=("Arial", 16)).pack(pady=10)
+        ttk.Label(self.content_frame, text="Noctal Mining", font=("Arial", 16)).pack(pady=10)
         mine_status = ttk.Label(self.content_frame, text="Mining Status: Idle")
         mine_status.pack(pady=5)
         start_mining_button = ttk.Button(self.content_frame, text="Start Mining")
@@ -216,7 +216,7 @@ class BitcoinUI(ctk.CTk):
 
 
 def mainGui(utxos, mempool, port):
-    app = BitcoinUI()
+    app = NoctalUI()
     app.utxos = utxos  
     app.mempool = mempool  
     app.mainloop()
