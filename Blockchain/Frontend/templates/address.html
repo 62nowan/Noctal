@@ -1,67 +1,90 @@
-{% extends 'base.html' %} {% block title %} Account {% endblock %} {% block
-content%}
+{% extends 'base.html' %}
+{% block title %} Address {{ publicAddress }} {% endblock %}
 
-<div class="address">
-  <div class="addTag">
-    <h1>Address</h1>
-    <h3>{{ publicAddress }}</h3>
-  </div>
-</div>
-
-<div class="grid-container3">
-  <div class="TxHeader">
-    <div class="TxItem PrevBlockHash">TRANSACTIONS </div>
-    <div class="TxItem BlockSize">BALANCE </div>
-  </div>
-  <div class="TxDetails">
-    <div class="TxItemDetail PrevBlockHash">{{ Txs|length }}</div>
-    <div class="TxItemDetail BlockSize">{{ amount/100000000 }} NOC</div>
-  </div>
-</div>
-
-<h1 class="TransactionsHeader">Transactions</h1>
-{% for blk in Txs %}
-<div class="TranscationsDiv">
-  <div class="TxStyle">
-    <h4 class="TxStyle TxId">
-      <a href="{{ url_for('transactions', txid=blk['TxId']) }}">
-        {{ blk['TxId'] }}
-      </a>
-    </h4>
-    <h3>Inputs</h3>
-    {% for tx_in in blk['tx_ins'] %}
-
-    <!-- if coinbase Transcation  -->
-    {% if tx_in['prev_tx'].hex()
-    =='0000000000000000000000000000000000000000000000000000000000000000' %}
-    <div class="TxStyle TxInput">#0 Coinbase</div>
-    {% else %}
-    <div class="TxStyle TxInput">
-      <a href="{{ url_for('transactions', txid=tx_in['prev_tx'].hex()) }}"
-        >#{{ loop.index0 }} {{ tx_in['prev_tx'].hex() }}
-      </a>
+{% block content %}
+<div class="page-container address-page">
+  <section class="card data-card address-header-card">
+    <div class="card-body address-summary">
+        <div class="address-info">
+            <h1 class="page-title">Address</h1>
+            <h2 class="address-hash font-mono">{{ publicAddress }}</h2>
+        </div>
+        <div class="qr-code">
+             <img id="QR" src="{{ qrcode(publicAddress, box_size=5, border=2) }}" alt="QR Code for {{ publicAddress }}" />
+        </div>
     </div>
-    {%endif %} {% endfor %}
-  </div>
+  </section>
+  <section class="card data-card address-stats-card">
+     <div class="card-body">
+       <dl class="definition-list horizontal"> 
+          <div class="definition-item">
+            <dt>Total Transactions</dt>
+            <dd>{{ Txs|length }}</dd>
+          </div>
+          <div class="definition-item">
+            <dt>Balance</dt>
+            <dd>{{ (amount/100000000)}} NOC</dd> 
+          </div>
+       </dl>
+     </div>
+  </section>
 
-  <div class="TxStyle output">
-    <h3>Outputs</h3>
-    {% set TotaAmount = 0 %} {% for tx_out in blk['tx_outs'] %}
+  <h2 class="section-title">Transactions</h2>
+  {% if Txs %}
+    {% for blk_tx in Txs %}
+    <section class="card data-card transaction-details-card address-tx-card">
+      <header class="card-header transaction-id-header">
+        <h3 class="transaction-id font-mono">
+          <a href="{{ url_for('transactions', txid=blk_tx['TxId']) }}">{{ blk_tx['TxId'] }}</a>
+        </h3>
+      </header>
+      <div class="card-body transaction-io">
+          <div class="tx-inputs">
+            <h4>Inputs</h4>
+            <ul class="tx-io-list">
+              {% for tx_in in blk_tx['tx_ins'] %}
+                <li>
+                  {% if tx_in['prev_tx'].hex() == '0000000000000000000000000000000000000000000000000000000000000000' %}
+                     <span class="coinbase-input"><span class="io-index">#{{ loop.index0 }}</span> Coinbase</span>
+                  {% else %}
+                     <span class="input-item font-mono">
+                         <span class="io-index">#{{ loop.index0 }}</span> From: <a href="{{ url_for('transactions', txid=tx_in['prev_tx'].hex()) }}" title="{{ tx_in['prev_tx'].hex() }}">>{{ tx_in['prev_tx'].hex()[:12]}}...</a>
+                     </span>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
 
-    <div class="Txoutput">
-      {% set h160hash = tx_out['script_pubkey']['cmds'][2] %} {% set newAddr =
-      main_prefix + h160hash %} {% set checksum =
-      sha256(sha256(newAddr).digest()).digest()[:4] %} {% set newAddr =newAddr +
-      checksum %} {% set pubAddress = encode_base58(newAddr) %} {% set
-      TotaAmount = TotaAmount + tx_out['amount'] %} {% if
-      (tx_out['amount']%100000000) == 0 %} {% set amount =
-      (tx_out['amount']/100000000)|int %} {% else %} {% set amount =
-      (tx_out['amount']/100000000) %} {% endif %}
-      <a href="{{ url_for('address', publicAddress = pubAddress) }}">
-        #{{ loop.index0 }} {{ pubAddress }} : {{ amount }} BTC</a
-      >
-    </div>
+          <div class="tx-outputs">
+            <h4>Outputs</h4>
+            <ul class="tx-io-list">
+              {% for tx_out in blk_tx['tx_outs'] %}
+                {% set h160hash = tx_out['script_pubkey']['cmds'][2] %}
+                {% set newAddr = main_prefix + h160hash %}
+                {% set checksum = sha256(sha256(newAddr).digest()).digest()[:4] %}
+                {% set newAddr = newAddr + checksum %}
+                {% set outAddress = encode_base58(newAddr) %} 
+                {% if (tx_out['amount']%100000000) == 0 %}
+                  {% set amount_out = (tx_out['amount']/100000000)|int %} 
+                {% else %}
+                  {% set amount_out = (tx_out['amount']/100000000) %} 
+                {% endif %}
+                <li class="{% if outAddress == publicAddress %} self-address {% endif %}">
+                  <a href="{{ url_for('address', publicAddress=outAddress) }}" class="output-link">
+                    <span class="io-index">#{{ loop.index0 }}</span>
+                    <span class="output-address font-mono">{{ outAddress }}</span>
+                    <span class="output-amount">{{ amount_out }} NOC</span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+      </div> 
+    </section>
     {% endfor %}
-  </div>
-</div>
-{% endfor %} {%endblock%}
+  {% else %}
+      <p class="no-data-message">No transactions found for this address</p>
+  {% endif %}
+</div> 
+{% endblock %}
