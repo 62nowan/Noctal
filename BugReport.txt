@@ -1,0 +1,17 @@
+Bug: Shared UTXO Used in Multiple Transactions leads to bugs
+
+Problem -> When sending a transaction, the system uses my latest received UTXO as input. It then generates two outputs: X NOC to the recipient and X NOC back to my own wallet. 
+This behavior is expected in a UTXO model, however, when multiple transactions are sent simultaneously, they may attempt to use the same UTXO as input, which leads to uncofirmed transaction and incorrect results.
+
+Possible Solution -> Each transaction should select differents UTXOs as inputs, once a UTXO is selected by one transaction, it should be marked as "spent" and not reused
+
+
+Bitcoin behavior: 
+  -> Before accepting a new transaction, Bitcoin checks if the input UTXOs are already used in another transaction in the mempool. If so, the new transaction is rejected to prevent double spending.
+  -> When a transaction is created, its inputs are temporarily marked as spent in the mempool, making them unavailable for any other transaction until the original is confirmed or discarded.
+  -> If two transactions try to spend the same UTXO, only the one received first by the network is accepted, the second is rejected due to input conflict.
+
+
+Bug: 
+
+
