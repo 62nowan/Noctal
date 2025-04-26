@@ -48,7 +48,7 @@
                      <span class="coinbase-input"><span class="io-index">#{{ loop.index0 }}</span> Coinbase</span>
                   {% else %}
                      <span class="input-item font-mono">
-                         <span class="io-index">#{{ loop.index0 }}</span> From: <a href="{{ url_for('transactions', txid=tx_in['prev_tx'].hex()) }}" title="{{ tx_in['prev_tx'].hex() }}">>{{ tx_in['prev_tx'].hex()[:12]}}...</a>
+                         <span class="io-index">#{{ loop.index0 }}</span> From: <a href="{{ url_for('transactions', txid=tx_in['prev_tx'].hex()) }}" title="{{ tx_in['prev_tx'].hex() }}">{{ tx_in['prev_tx'].hex()[:12]}}...</a>
                      </span>
                   {% endif %}
                 </li>
